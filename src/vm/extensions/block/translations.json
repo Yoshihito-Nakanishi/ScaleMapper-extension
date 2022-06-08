@@ -1,0 +1,14 @@
+{
+  "en": {
+    "scaleMapper.name": "ScaleMapper",
+    "scaleMapper.doIt": "do it [SCRIPT]"
+  },
+  "ja": {
+    "scaleMapper.name": "ScaleMapper",
+    "scaleMapper.doIt": "[SCRIPT] を実行する"
+  },
+  "ja-Hira": {
+    "scaleMapper.name": "ScaleMapper",
+    "scaleMapper.doIt": "[SCRIPT] をじっこうする"
+  }
+}

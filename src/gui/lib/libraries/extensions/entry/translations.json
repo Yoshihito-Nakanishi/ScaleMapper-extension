@@ -1,0 +1,14 @@
+{
+  "en": {
+    "scaleMapper.entry.name": "ScaleMapper",
+    "scaleMapper.entry.description": "Description of this extension"
+  },
+  "ja": {
+    "scaleMapper.entry.name": "ScaleMapper",
+    "scaleMapper.entry.description": "拡張機能の説明"
+  },
+  "ja-Hira": {
+    "scaleMapper.entry.name": "ScaleMapper",
+    "scaleMapper.entry.description": "かくちょうきのうのせつめい"
+  }
+}
