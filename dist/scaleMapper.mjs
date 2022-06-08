@@ -326,6 +326,50 @@ var ExtensionBlocks = /*#__PURE__*/function () {
               defaultValue: "0"
             }
           }
+        }, {
+          opcode: 'map',
+          text: 'data [data] in_min [in_min] in_max [in_max] out_min [out_min] out_max [out_max]',
+          blockType: blockType.REPORTER,
+          arguments: {
+            data: {
+              type: argumentType.NUMBER,
+              defaultValue: "0"
+            },
+            in_min: {
+              type: argumentType.NUMBER,
+              defaultValue: "0"
+            },
+            in_max: {
+              type: argumentType.NUMBER,
+              defaultValue: "0"
+            },
+            out_min: {
+              type: argumentType.NUMBER,
+              defaultValue: "0"
+            },
+            out_max: {
+              type: argumentType.NUMBER,
+              defaultValue: "0"
+            }
+          }
+        }, {
+          opcode: 'constrain',
+          text: 'data [data] low [low] high [high]',
+          blockType: blockType.REPORTER,
+          arguments: {
+            data: {
+              type: argumentType.NUMBER,
+              defaultValue: "0"
+            },
+            low: {
+              type: argumentType.NUMBER,
+              defaultValue: "0"
+            },
+            high: {
+              type: argumentType.NUMBER,
+              defaultValue: "0"
+            }
+          }
         }],
         menus: {}
       };
@@ -381,6 +425,16 @@ var ExtensionBlocks = /*#__PURE__*/function () {
       }
 
       return result;
+    }
+  }, {
+    key: "map",
+    value: function map(args) {
+      return (args.data - args.in_min) * (args.out_max - args.out_min) / (args.in_max - args.in_min) + args.out_min;
+    }
+  }, {
+    key: "constrain",
+    value: function constrain(args) {
+      return args.data < args.low ? args.low : args.data > args.high ? args.high : args.data;
     }
   }], [{
     key: "EXTENSION_NAME",

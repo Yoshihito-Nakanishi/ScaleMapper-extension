@@ -213,6 +213,52 @@ class ExtensionBlocks {
                         }
                     }
                 }, 
+                {
+                    opcode: 'map',
+                    text: 'data [data] in_min [in_min] in_max [in_max] out_min [out_min] out_max [out_max]',
+                    blockType: BlockType.REPORTER,
+                    arguments: {
+                        data: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: "0",
+                        },
+                        in_min: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: "0",
+                        },
+                        in_max: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: "0",
+                        },
+                        out_min: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: "0",
+                        },
+                        out_max: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: "0",
+                        }
+                    }
+                }, 
+                {
+                    opcode: 'constrain',
+                    text: 'data [data] low [low] high [high]',
+                    blockType: BlockType.REPORTER,
+                    arguments: {
+                        data: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: "0",
+                        },
+                        low: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: "0",
+                        },
+                        high: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: "0",
+                        }
+                    }
+                }, 
             ],
             menus: {
             }
@@ -271,6 +317,14 @@ class ExtensionBlocks {
 
         return result;
     };
+
+    map(args){
+        return (args.data - args.in_min) * (args.out_max - args.out_min) / (args.in_max - args.in_min) + args.out_min;
+    };
+
+    constrain(args){
+        return (args.data)<(args.low)?(args.low):((args.data)>(args.high)?(args.high):(args.data));
+    }
 
 }
 
