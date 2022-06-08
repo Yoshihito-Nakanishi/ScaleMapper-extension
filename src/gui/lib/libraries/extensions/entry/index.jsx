@@ -2,8 +2,8 @@
  * This is an extension for Xcratch.
  */
 
-import iconURL from './entry-icon.png';
-import insetIconURL from './inset-icon.svg';
+import iconURL from './mapperext.png';
+import insetIconURL from './mapperextmin.png';
 import translations from './translations.json';
 
 /**
