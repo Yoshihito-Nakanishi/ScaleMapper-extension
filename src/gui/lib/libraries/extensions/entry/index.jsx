@@ -23,13 +23,13 @@ const entry = {
         });
     },
     extensionId: 'scaleMapper',
-    extensionURL: 'https://Yoshihito-Nakanishi.github.io/xcx-my-extension/dist/scaleMapper.mjs',
+    extensionURL: 'https://Yoshihito-Nakanishi.github.io/ScaleMapper-extension/dist/scaleMapper.mjs',
     collaborator: 'Yoshihito-Nakanishi',
     iconURL: iconURL,
     insetIconURL: insetIconURL,
     get description () {
         return formatMessage({
-            defaultMessage: 'an extension for Xcratch',
+            defaultMessage: 'Sensor mapping extension for Xcratch',
             description: 'Description for this extension',
             id: 'scaleMapper.entry.description'
         });
@@ -38,7 +38,7 @@ const entry = {
     disabled: false,
     bluetoothRequired: false,
     internetConnectionRequired: false,
-    helpLink: 'https://Yoshihito-Nakanishi.github.io/xcx-my-extension/',
+    helpLink: 'https://Yoshihito-Nakanishi.github.io/ScaleMapper-extension/',
     setFormatMessage: formatter => {
         formatMessage = formatter;
     },

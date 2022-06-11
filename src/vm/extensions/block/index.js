@@ -47,7 +47,7 @@ const EXTENSION_ID = 'scaleMapper';
  * When it was loaded as a module, 'extensionURL' will be replaced a URL which is retrieved from.
  * @type {string}
  */
-let extensionURL = 'https://Yoshihito-Nakanishi.github.io/xcx-my-extension/dist/scaleMapper.mjs';
+let extensionURL = 'https://Yoshihito-Nakanishi.github.io/ScaleMapper-extension/dist/scaleMapper.mjs';
 
 
 let DorianTable = [
