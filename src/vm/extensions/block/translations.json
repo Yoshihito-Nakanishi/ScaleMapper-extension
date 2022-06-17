@@ -1,14 +1,28 @@
 {
   "en": {
     "scaleMapper.name": "ScaleMapper",
-    "scaleMapper.doIt": "do it [SCRIPT]"
+    "scaleMapper.doIt": "do it [SCRIPT]",
+    "scaleMapper.scaler": "Convert [data] values to [scale] scale",
+    "scaleMapper.oneshot": "when the value of [data] is greater than [thresh] output [note]",
+    "scaleMapper.map": "Convert the range of values in [data] from min [in_min] max [in_max] to min [out_min] max [out_max",
+    "scaleMapper.constrain": " Keep [data] values in the range [low] to [high"
   },
   "ja": {
     "scaleMapper.name": "ScaleMapper",
-    "scaleMapper.doIt": "[SCRIPT] を実行する"
+    "scaleMapper.doIt": "[SCRIPT] を実行する",
+    "scaleMapper.scaler": " [data] の値を [scale] 音階に変換する",
+    "scaleMapper.oneshot": " [data] の値が [thresh] より大きくなったら [note] を出力する",
+    "scaleMapper.map": " [data] の値の範囲を 最小[in_min] 最大[in_max]から 最小[out_min] 最大[out_max] に変換する",
+    "scaleMapper.constrain": " [data] の値を [low] から [high] の範囲の中におさめる"
+
   },
   "ja-Hira": {
     "scaleMapper.name": "ScaleMapper",
-    "scaleMapper.doIt": "[SCRIPT] をじっこうする"
+    "scaleMapper.doIt": "[SCRIPT] をじっこうする",
+    "scaleMapper.scaler": " [data] のあたいを [scale] おんかいにへんかんする",
+    "scaleMapper.oneshot": " [data] のあたいが [thresh] よりおおきくなったら [note] を出力する",
+    "scaleMapper.map": " [data] のあたいのはんいをさいしょう[in_min]さいだい[in_max]からさいしょう[out_min]からさいだい[out_max]にへんかんする",
+    "scaleMapper.constrain": " [data] のあたいを [low] から [high] のはんいのなかにおさめる"
+
   }
 }

@@ -181,22 +181,29 @@ class ExtensionBlocks {
             blocks: [
                 {
                     opcode: 'scaler',
-                    text: 'data [data] scale [scale]',
+                    text: formatMessage({
+                        id: 'scaleMapper.scaler',
+                        default: 'Converts sensor values [data] to a musical scale [scale]'
+                    }),
                     blockType: BlockType.REPORTER,
                     arguments: {
                         data: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NOTE,
                             defaultValue: "0",
                         },
                         scale: {
                             type: ArgumentType.NUMBER,
+                            menu: 'scaleMenu',
                             defaultValue: "0",
                         }
                     }
                 },                
                 {
                     opcode: 'oneshot',
-                    text: 'data [data] threshold [thresh] note [note]',
+                    text: formatMessage({
+                        id: 'scaleMapper.oneshot',
+                        default: 'the sensor value [data] is greater than [thresh] output [note]'
+                    }),
                     blockType: BlockType.REPORTER,
                     arguments: {
                         data: {
@@ -208,14 +215,17 @@ class ExtensionBlocks {
                             defaultValue: "0",
                         },
                         note: {
-                            type: ArgumentType.NUMBER,
-                            defaultValue: "0",
+                            type: ArgumentType.NOTE,
+                            defaultValue: "60",
                         }
                     }
                 }, 
                 {
                     opcode: 'map',
-                    text: 'data [data] in_min [in_min] in_max [in_max] out_min [out_min] out_max [out_max]',
+                    text: formatMessage({
+                        id: 'scaleMapper.map',
+                        default: 'Convert the range of sensor value [data] from min [in_min] max [in_max] to min [out_min] to max [out_max]'
+                    }),
                     blockType: BlockType.REPORTER,
                     arguments: {
                         data: {
@@ -242,7 +252,10 @@ class ExtensionBlocks {
                 }, 
                 {
                     opcode: 'constrain',
-                    text: 'data [data] low [low] high [high]',
+                    text: formatMessage({
+                        id: 'scaleMapper.constrain',
+                        default: 'data [data] low [low] high [high]'
+                    }),
                     blockType: BlockType.REPORTER,
                     arguments: {
                         data: {
@@ -261,12 +274,37 @@ class ExtensionBlocks {
                 }, 
             ],
             menus: {
+                scaleMenu: {
+                    acceptReporters: true,
+                    items: this.getScaleMenu()
+                },
             }
         };
     }
 
     /* ================================ */
     // Functions
+
+    getScaleMenu () {
+        return [
+            {
+                text: `Ionian`,
+                value: '0'
+            },
+            {
+                text: `Dorian`,
+                value: '1'
+            },
+            {
+                text: `majorPentatonic`,
+                value: '2'
+            },
+            {
+                text: `minorPentatonic`,
+                value: '3'
+            }
+        ];
+    }
 
     scaler(args) {
         
