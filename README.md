@@ -5,9 +5,8 @@ This extension add extra-block "do it", that executes string in its input field 
 
 
 ## ✨ What You Can Do With This Extension
-
-Play [Example Project](https://xcratch.github.io/editor/#https://Yoshihito-Nakanishi.github.io/xcx-my-extension/projects/example.sb3) to look at what you can do with "ScaleMapper" extension. 
-<iframe src="https://xcratch.github.io/editor/player#https://Yoshihito-Nakanishi.github.io/xcx-my-extension/projects/example.sb3" width="540px" height="460px"></iframe>
+Play [Example Project](https://xcratch.github.io/editor/#https://Yoshihito-Nakanishi.github.io/ScaleMapper-extension/projects/example.sb3) to look at what you can do with "ScaleMapper" extension. 
+<iframe src="https://xcratch.github.io/editor/player#https://Yoshihito-Nakanishi.github.io/ScaleMapper-extension/projects/example.sb3" width="540px" height="460px"></iframe>
 
 
 ## How to Use in Xcratch
@@ -18,7 +17,7 @@ This extension can be used with other extension in [Xcratch](https://xcratch.git
 3. Select 'Extension Loader' extension
 4. Type the module URL in the input field 
 ```
-https://Yoshihito-Nakanishi.github.io/xcx-my-extension/dist/scaleMapper.mjs
+https://Yoshihito-Nakanishi.github.io/ScaleMapper-extension/dist/scaleMapper.mjs
 ```
 
 ## Development
@@ -41,9 +40,9 @@ npm run build
 
 ## 🏠 Home Page
 
-Open this page from [https://Yoshihito-Nakanishi.github.io/xcx-my-extension/](https://Yoshihito-Nakanishi.github.io/xcx-my-extension/)
+Open this page from [https://Yoshihito-Nakanishi.github.io/ScaleMapper-extension/](https://Yoshihito-Nakanishi.github.io/ScaleMapper-extension/)
 
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Yoshihito-Nakanishi/xcx-my-extension/issues). 
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://Yoshihito-Nakanishi.github.io/ScaleMapper-extension/issues). 
