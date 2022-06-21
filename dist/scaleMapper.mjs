@@ -207,7 +207,7 @@ var ja = {
 	"scaleMapper.map": " [data] の値の範囲を 最小[in_min] 最大[in_max]から 最小[out_min] 最大[out_max] に変換する",
 	"scaleMapper.constrain": " [data] の値を [low] から [high] の範囲の中におさめる",
 	"scaleMapper.sendMIDI": " MIDIメッセージ （ チャンネル [ch] 高さ [pitch] 強さ [velocity] 時間 [duration] ）をデバイスID [outDevice] に送る",
-	"scaleMapper.sendCC": " CCメッセージ (チャンネル [ch] 値 [value]) をデバイスID [outDevice] に送る"
+	"scaleMapper.sendCC": " CCメッセージ （ チャンネル [ch] 値 [value] ）をデバイスID [outDevice] に送る"
 };
 var translations = {
 	en: en,
