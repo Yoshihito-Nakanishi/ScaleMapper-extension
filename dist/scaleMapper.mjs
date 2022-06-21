@@ -43,14 +43,14 @@ var entry = {
   },
 
   extensionId: 'scaleMapper',
-  extensionURL: 'https://Yoshihito-Nakanishi.github.io/xcx-my-extension/dist/scaleMapper.mjs',
+  extensionURL: 'https://Yoshihito-Nakanishi.github.io/ScaleMapper-extension/dist/scaleMapper.mjs',
   collaborator: 'Yoshihito-Nakanishi',
   iconURL: img$1,
   insetIconURL: img,
 
   get description() {
     return formatMessage$1({
-      defaultMessage: 'an extension for Xcratch',
+      defaultMessage: 'Sensor mapping extension for Xcratch',
       description: 'Description for this extension',
       id: 'scaleMapper.entry.description'
     });
@@ -60,7 +60,7 @@ var entry = {
   disabled: false,
   bluetoothRequired: false,
   internetConnectionRequired: false,
-  helpLink: 'https://Yoshihito-Nakanishi.github.io/xcx-my-extension/',
+  helpLink: 'https://Yoshihito-Nakanishi.github.io/ScaleMapper-extension/',
   setFormatMessage: function setFormatMessage(formatter) {
     formatMessage$1 = formatter;
   },
@@ -191,18 +191,36 @@ var argumentType = ArgumentType;
 
 var en = {
 	"scaleMapper.name": "ScaleMapper",
-	"scaleMapper.doIt": "do it [SCRIPT]"
+	"scaleMapper.doIt": "do it [SCRIPT]",
+	"scaleMapper.scaler": "Convert [data] values to [scale] scale",
+	"scaleMapper.oneshot": "when the value of [data] is greater than [thresh] output [note]",
+	"scaleMapper.map": "Convert the range of values in [data] from min [in_min] max [in_max] to min [out_min] max [out_max]",
+	"scaleMapper.constrain": " Keep [data] values in the range [low] to [high]",
+	"scaleMapper.sendMIDI": " Send MIDI Message (channel [ch] pitch [pitch] velocity [velocity] duration [duration]) to device ID [outDevice]",
+	"scaleMapper.sendCC": " Send CC Message (channel [ch] value [value]) to device ID [outDevice]"
 };
 var ja = {
 	"scaleMapper.name": "ScaleMapper",
-	"scaleMapper.doIt": "[SCRIPT] を実行する"
+	"scaleMapper.doIt": "[SCRIPT] を実行する",
+	"scaleMapper.scaler": " [data] の値を [scale] 音階に変換する",
+	"scaleMapper.oneshot": " [data] の値が [thresh] より大きくなったら [note] を出力する",
+	"scaleMapper.map": " [data] の値の範囲を 最小[in_min] 最大[in_max]から 最小[out_min] 最大[out_max] に変換する",
+	"scaleMapper.constrain": " [data] の値を [low] から [high] の範囲の中におさめる",
+	"scaleMapper.sendMIDI": " MIDIメッセージ （ チャンネル [ch] 高さ [pitch] 強さ [velocity] 時間 [duration] ）をデバイスID [outDevice] に送る",
+	"scaleMapper.sendCC": " CCメッセージ (チャンネル [ch] 値 [value]) をデバイスID [outDevice] に送る"
 };
 var translations = {
 	en: en,
 	ja: ja,
 	"ja-Hira": {
 	"scaleMapper.name": "ScaleMapper",
-	"scaleMapper.doIt": "[SCRIPT] をじっこうする"
+	"scaleMapper.doIt": "[SCRIPT] をじっこうする",
+	"scaleMapper.scaler": " [data] のあたいを [scale] おんかいにへんかんする",
+	"scaleMapper.oneshot": " [data] のあたいが [thresh] よりおおきくなったら [note] を出力する",
+	"scaleMapper.map": " [data] のあたいのはんいをさいしょう[in_min]さいだい[in_max]からさいしょう[out_min]からさいだい[out_max]にへんかんする",
+	"scaleMapper.constrain": " [data] のあたいを [low] から [high] のはんいのなかにおさめる",
+	"scaleMapper.sendMIDI": " みでぃめっせーじ （ ちゃんねる [ch] たかさ [pitch] つよさ [velocity] じかん [duration] ）をでばいすばんごう [outDevice] におくる",
+	"scaleMapper.sendCC": " こんとろーるちぇんじめっせーじ (ちゃんねる [ch] あたい [value]) をでばいすばんごう [outDevice] におくる"
 }
 };
 
@@ -250,14 +268,82 @@ var EXTENSION_ID = 'scaleMapper';
  * @type {string}
  */
 
-var extensionURL = 'https://Yoshihito-Nakanishi.github.io/xcx-my-extension/dist/scaleMapper.mjs';
+var extensionURL = 'https://Yoshihito-Nakanishi.github.io/ScaleMapper-extension/dist/scaleMapper.mjs';
 var DorianTable = [0, 2, 3, 5, 7, 9, 10, 12, 14, 15, 17, 19, 21, 22, 24, 26, 27, 29, 31, 33, 34, 36, 38, 39, 41, 43, 45, 46, 48, 50, 51, 53, 55, 57, 58, 60, 62, 63, 65, 67, 69, 70, 72, 74, 75, 77, 79, 81, 82, 84, 86, 87, 89, 91, 93, 94, 96, 98, 99, 101, 103, 105, 106, 108, 110, 111, 113, 115, 117, 118, 120, 122, 123, 125, 127];
 var IonianTable = [0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19, 21, 23, 24, 26, 28, 29, 31, 33, 35, 36, 38, 40, 41, 43, 45, 47, 48, 50, 52, 53, 55, 57, 59, 60, 62, 64, 65, 67, 69, 71, 72, 74, 76, 77, 79, 81, 83, 84, 86, 88, 89, 91, 93, 95, 96, 98, 100, 101, 103, 105, 107, 108, 110, 112, 113, 115, 117, 119, 120, 122, 124, 125, 127];
 var minPentaTable = [0, 3, 5, 7, 10, 12, 15, 17, 19, 22, 24, 27, 29, 31, 34, 36, 39, 41, 43, 46, 48, 51, 53, 55, 58, 60, 63, 65, 67, 70, 72, 75, 77, 79, 82, 84, 87, 89, 91, 94, 96, 99, 101, 103, 106, 108, 111, 113, 115, 118, 120, 123, 125, 127];
 var majPentaTable = [0, 2, 4, 7, 9, 12, 14, 16, 19, 21, 24, 26, 28, 31, 33, 36, 38, 40, 43, 45, 48, 50, 52, 55, 57, 60, 62, 64, 67, 69, 72, 74, 76, 79, 81, 84, 86, 88, 91, 93, 96, 98, 100, 103, 105, 108, 110, 112, 115, 117, 120, 122, 124, 127];
+var midiIn = [];
+var midiOut = [];
+
+function midiConnect() {
+  navigator.requestMIDIAccess().then(function (midi) {
+    return midiReady(midi);
+  }, function (err) {
+    return console.log('Something went wrong', err);
+  });
+}
+
+function midiReady(midi) {
+  // Also react to device changes.
+  midi.addEventListener('statechange', function (event) {
+    return initMidiDevice(event.target);
+  });
+  initMidiDevice(midi); // see the next section!
+}
+
+function initMidiDevice(midi) {
+  // Reset.
+  midiIn = [];
+  midiOut = [];
+  var message = "[Available MIDI Ports: 使えるMIDIポート]\n"; // MIDI devices that send you data.
+
+  var inputs = midi.inputs.values();
+  var count = 0;
+
+  for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
+    midiIn.push(input.value);
+    message = message + "input[" + count + "]: " + input.value.name + "\n";
+    count++;
+  } // MIDI devices that you send data to.
+
+
+  var outputs = midi.outputs.values();
+  count = 0;
+
+  for (var output = outputs.next(); output && !output.done; output = outputs.next()) {
+    midiOut.push(output.value);
+    message = message + "output[" + count + "]: " + output.value.name + "\n";
+    count++;
+  }
+
+  console.log(message);
+  alert(message);
+}
+
+function sendMidiMessage(ch, pitch, velocity, duration, index) {
+  var NOTE_ON = 0x90;
+  var NOTE_OFF = 0x80;
+  var device = midiOut[index];
+  var msgOn = [NOTE_ON, pitch, velocity];
+  var msgOff = [NOTE_OFF, pitch, velocity]; // note on
+
+  device.send(msgOn); // note off
+
+  device.send(msgOff, Date.now() + duration);
+}
+
+function sendCCMessage(ch, value, index) {
+  var CC = 0xB0;
+  var device = midiOut[index];
+  var msgCC = [CC, 0, value]; // First send the note on;
+
+  device.send(msgCC);
+}
 /**
  * Scratch 3.0 blocks for example of Xcratch.
  */
+
 
 var ExtensionBlocks = /*#__PURE__*/function () {
   /**
@@ -272,6 +358,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
      * @type {Runtime}
      */
     this.runtime = runtime;
+    midiConnect();
 
     if (runtime.formatMessage) {
       // Replace 'formatMessage' to a formatter which is used in the runtime.
@@ -296,21 +383,28 @@ var ExtensionBlocks = /*#__PURE__*/function () {
         showStatusButton: false,
         blocks: [{
           opcode: 'scaler',
-          text: 'data [data] scale [scale]',
+          text: formatMessage({
+            id: 'scaleMapper.scaler',
+            default: 'Converts sensor values [data] to a musical scale [scale]'
+          }),
           blockType: blockType.REPORTER,
           arguments: {
             data: {
-              type: argumentType.NUMBER,
+              type: argumentType.NOTE,
               defaultValue: "0"
             },
             scale: {
               type: argumentType.NUMBER,
+              menu: 'scaleMenu',
               defaultValue: "0"
             }
           }
         }, {
           opcode: 'oneshot',
-          text: 'data [data] threshold [thresh] note [note]',
+          text: formatMessage({
+            id: 'scaleMapper.oneshot',
+            default: 'the sensor value [data] is greater than [thresh] output [note]'
+          }),
           blockType: blockType.REPORTER,
           arguments: {
             data: {
@@ -322,13 +416,16 @@ var ExtensionBlocks = /*#__PURE__*/function () {
               defaultValue: "0"
             },
             note: {
-              type: argumentType.NUMBER,
-              defaultValue: "0"
+              type: argumentType.NOTE,
+              defaultValue: "60"
             }
           }
         }, {
           opcode: 'map',
-          text: 'data [data] in_min [in_min] in_max [in_max] out_min [out_min] out_max [out_max]',
+          text: formatMessage({
+            id: 'scaleMapper.map',
+            default: 'Convert the range of sensor value [data] from min [in_min] max [in_max] to min [out_min] to max [out_max]'
+          }),
           blockType: blockType.REPORTER,
           arguments: {
             data: {
@@ -354,7 +451,10 @@ var ExtensionBlocks = /*#__PURE__*/function () {
           }
         }, {
           opcode: 'constrain',
-          text: 'data [data] low [low] high [high]',
+          text: formatMessage({
+            id: 'scaleMapper.constrain',
+            default: 'data [data] low [low] high [high]'
+          }),
           blockType: blockType.REPORTER,
           arguments: {
             data: {
@@ -370,13 +470,85 @@ var ExtensionBlocks = /*#__PURE__*/function () {
               defaultValue: "0"
             }
           }
+        }, {
+          opcode: 'sendMIDI',
+          text: formatMessage({
+            id: 'scaleMapper.sendMIDI',
+            default: 'ch [ch] pitch [pitch] velocity [velocity] duration [duration] outDevice[outDevice]'
+          }),
+          blockType: blockType.COMMAND,
+          arguments: {
+            ch: {
+              type: argumentType.NUMBER,
+              defaultValue: "0"
+            },
+            pitch: {
+              type: argumentType.NOTE,
+              defaultValue: "60"
+            },
+            velocity: {
+              type: argumentType.NUMBER,
+              defaultValue: "60"
+            },
+            duration: {
+              type: argumentType.NUMBER,
+              defaultValue: "100"
+            },
+            outDevice: {
+              type: argumentType.NUMBER,
+              defaultValue: "0"
+            }
+          }
+        }, {
+          opcode: 'sendCC',
+          text: formatMessage({
+            id: 'scaleMapper.sendCC',
+            default: 'ch [ch] value [value] outDevice[outDevice]'
+          }),
+          blockType: blockType.COMMAND,
+          arguments: {
+            ch: {
+              type: argumentType.NUMBER,
+              defaultValue: "0"
+            },
+            value: {
+              type: argumentType.NUMBER,
+              defaultValue: "0"
+            },
+            outDevice: {
+              type: argumentType.NUMBER,
+              defaultValue: "0"
+            }
+          }
         }],
-        menus: {}
+        menus: {
+          scaleMenu: {
+            acceptReporters: true,
+            items: this.getScaleMenu()
+          }
+        }
       };
     }
     /* ================================ */
     // Functions
 
+  }, {
+    key: "getScaleMenu",
+    value: function getScaleMenu() {
+      return [{
+        text: "Ionian",
+        value: '0'
+      }, {
+        text: "Dorian",
+        value: '1'
+      }, {
+        text: "majorPentatonic",
+        value: '2'
+      }, {
+        text: "minorPentatonic",
+        value: '3'
+      }];
+    }
   }, {
     key: "scaler",
     value: function scaler(args) {
@@ -435,6 +607,16 @@ var ExtensionBlocks = /*#__PURE__*/function () {
     key: "constrain",
     value: function constrain(args) {
       return args.data < args.low ? args.low : args.data > args.high ? args.high : args.data;
+    }
+  }, {
+    key: "sendMIDI",
+    value: function sendMIDI(args) {
+      sendMidiMessage(args.ch, args.pitch, args.velocity, args.duration, args.outDevice);
+    }
+  }, {
+    key: "sendCC",
+    value: function sendCC(args) {
+      sendCCMessage(args.ch, args.value, args.outDevice);
     }
   }], [{
     key: "EXTENSION_NAME",

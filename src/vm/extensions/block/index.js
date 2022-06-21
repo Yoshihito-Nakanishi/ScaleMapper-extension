@@ -108,6 +108,77 @@ let majPentaTable = [
 
 let scaleValue = 0;
 
+var midiIn = [];
+var midiOut = [];
+
+function midiConnect() {
+    navigator.requestMIDIAccess()
+    .then(
+      (midi) => midiReady(midi),
+      (err) => console.log('Something went wrong', err));
+  }
+  
+  function midiReady(midi) {
+    // Also react to device changes.
+    midi.addEventListener('statechange', (event) => initMidiDevice(event.target));
+    initMidiDevice(midi); // see the next section!
+  }
+
+  function initMidiDevice(midi) {
+    // Reset.
+    midiIn = [];
+    midiOut = [];
+
+    var message = "[Available MIDI Ports: 使えるMIDIポート]\n";
+    
+    // MIDI devices that send you data.
+    const inputs = midi.inputs.values();
+    var count = 0;
+    for (let input = inputs.next(); input && !input.done; input = inputs.next()) {
+      midiIn.push(input.value);
+      message = message + "input[" + count + "]: " + input.value.name + "\n"; 
+      count++;
+    }
+    
+    // MIDI devices that you send data to.
+    const outputs = midi.outputs.values();
+    count = 0;
+    for (let output = outputs.next(); output && !output.done; output = outputs.next()) {
+      midiOut.push(output.value);
+      message = message + "output[" + count + "]: " + output.value.name + "\n"; 
+      count++;
+    }
+
+    console.log(message);
+    alert(message);
+    
+  }
+
+  function sendMidiMessage(ch, pitch, velocity, duration, index) {
+    const NOTE_ON = 0x90;
+    const NOTE_OFF = 0x80;
+    
+    const device = midiOut[index];
+    const msgOn = [NOTE_ON, pitch, velocity];
+    const msgOff = [NOTE_OFF, pitch, velocity];
+    
+    // note on
+    device.send(msgOn); 
+      
+    // note off
+    device.send(msgOff, Date.now() + duration); 
+  }
+
+  function sendCCMessage(ch, value, index) {
+    const CC = 0xB0;
+    
+    const device = midiOut[index];
+    const msgCC = [CC, 0, value];
+
+    // First send the note on;
+    device.send(msgCC); 
+  }
+
 /**
  * Scratch 3.0 blocks for example of Xcratch.
  */
@@ -158,6 +229,8 @@ class ExtensionBlocks {
          * @type {Runtime}
          */
         this.runtime = runtime;
+
+        midiConnect();
 
         if (runtime.formatMessage) {
             // Replace 'formatMessage' to a formatter which is used in the runtime.
@@ -272,6 +345,58 @@ class ExtensionBlocks {
                         }
                     }
                 }, 
+                {
+                    opcode: 'sendMIDI',
+                    text: formatMessage({
+                        id: 'scaleMapper.sendMIDI',
+                        default: 'ch [ch] pitch [pitch] velocity [velocity] duration [duration] outDevice[outDevice]'
+                    }),
+                    blockType: BlockType.COMMAND,
+                    arguments: {
+                        ch: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: "0",
+                        },
+                        pitch: {
+                            type: ArgumentType.NOTE,
+                            defaultValue: "60",
+                        },
+                        velocity: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: "60",
+                        },
+                        duration: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: "100",
+                        },
+                        outDevice: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: "0",
+                        }
+                    }
+                }, 
+                {
+                    opcode: 'sendCC',
+                    text: formatMessage({
+                        id: 'scaleMapper.sendCC',
+                        default: 'ch [ch] value [value] outDevice[outDevice]'
+                    }),
+                    blockType: BlockType.COMMAND,
+                    arguments: {
+                        ch: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: "0",
+                        },
+                        value: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: "0",
+                        },
+                        outDevice: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: "0",
+                        }
+                    }
+                }, 
             ],
             menus: {
                 scaleMenu: {
@@ -363,6 +488,14 @@ class ExtensionBlocks {
     constrain(args){
         return (args.data)<(args.low)?(args.low):((args.data)>(args.high)?(args.high):(args.data));
     }
+
+    sendMIDI(args){
+        sendMidiMessage(args.ch, args.pitch, args.velocity, args.duration, args.outDevice);
+    };
+
+    sendCC(args){
+        sendCCMessage(args.ch, args.value, args.outDevice);
+    };
 
 }
 
