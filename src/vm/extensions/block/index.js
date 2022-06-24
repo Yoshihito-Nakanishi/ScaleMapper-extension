@@ -174,13 +174,16 @@ function midiConnect() {
           // note off
           const noteOff = function(){
             device.send(msgOff);
+            console.log("noteoff:" + msgOff);
           };
 
+          console.log("noteon:" + msgOn);
           setTimeout(noteOff, duration);
 
       } else {
 
         device.send(msgOff);
+        console.log("noteoff:" + msgOff);
 
       }
 
@@ -305,7 +308,7 @@ class ExtensionBlocks {
                         },
                         thresh: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: "0",
+                            defaultValue: "60",
                         },
                         note: {
                             type: ArgumentType.NOTE,
@@ -327,7 +330,7 @@ class ExtensionBlocks {
                         },
                         thresh: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: "0",
+                            defaultValue: "60",
                         },
                         note: {
                             type: ArgumentType.NOTE,
@@ -353,7 +356,7 @@ class ExtensionBlocks {
                         },
                         in_max: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: "0",
+                            defaultValue: "100",
                         },
                         out_min: {
                             type: ArgumentType.NUMBER,
@@ -361,7 +364,7 @@ class ExtensionBlocks {
                         },
                         out_max: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: "0",
+                            defaultValue: "200",
                         }
                     }
                 }, 
@@ -383,7 +386,7 @@ class ExtensionBlocks {
                         },
                         high: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: "0",
+                            defaultValue: "100",
                         }
                     }
                 }, 
@@ -541,11 +544,20 @@ class ExtensionBlocks {
     };
 
     map(args){
-        return (args.data - args.in_min) * (args.out_max - args.out_min) / (args.in_max - args.in_min) + args.out_min;
+        var mapped = (args.data - args.in_min) * (args.out_max - args.out_min) / (args.in_max - args.in_min) + args.out_min;
+        console.log(mapped);
+        return mapped;
     };
 
     constrain(args){
-        return (args.data)<(args.low)?(args.low):((args.data)>(args.high)?(args.high):(args.data));
+        if(args.data < args.low) {
+            return args.low;
+        }
+        else if(args.high < args.data) {
+            return args.high;
+        }
+        else
+            return args.data;
     }
 
     sendMIDI(args){

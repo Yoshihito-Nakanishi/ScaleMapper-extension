@@ -338,11 +338,14 @@ function sendMidiMessage(ch, pitch, velocity, duration, index) {
 
     var noteOff = function noteOff() {
       device.send(msgOff);
+      console.log("noteoff:" + msgOff);
     };
 
+    console.log("noteon:" + msgOn);
     setTimeout(noteOff, duration);
   } else {
     device.send(msgOff);
+    console.log("noteoff:" + msgOff);
   }
 }
 
@@ -428,7 +431,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
             },
             thresh: {
               type: argumentType.NUMBER,
-              defaultValue: "0"
+              defaultValue: "60"
             },
             note: {
               type: argumentType.NOTE,
@@ -449,7 +452,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
             },
             thresh: {
               type: argumentType.NUMBER,
-              defaultValue: "0"
+              defaultValue: "60"
             },
             note: {
               type: argumentType.NOTE,
@@ -474,7 +477,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
             },
             in_max: {
               type: argumentType.NUMBER,
-              defaultValue: "0"
+              defaultValue: "100"
             },
             out_min: {
               type: argumentType.NUMBER,
@@ -482,7 +485,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
             },
             out_max: {
               type: argumentType.NUMBER,
-              defaultValue: "0"
+              defaultValue: "200"
             }
           }
         }, {
@@ -503,7 +506,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
             },
             high: {
               type: argumentType.NUMBER,
-              defaultValue: "0"
+              defaultValue: "100"
             }
           }
         }, {
@@ -652,12 +655,18 @@ var ExtensionBlocks = /*#__PURE__*/function () {
   }, {
     key: "map",
     value: function map(args) {
-      return (args.data - args.in_min) * (args.out_max - args.out_min) / (args.in_max - args.in_min) + args.out_min;
+      var mapped = (args.data - args.in_min) * (args.out_max - args.out_min) / (args.in_max - args.in_min) + args.out_min;
+      console.log(mapped);
+      return mapped;
     }
   }, {
     key: "constrain",
     value: function constrain(args) {
-      return args.data < args.low ? args.low : args.data > args.high ? args.high : args.data;
+      if (args.data < args.low) {
+        return args.low;
+      } else if (args.high < args.data) {
+        return args.high;
+      } else return args.data;
     }
   }, {
     key: "sendMIDI",
