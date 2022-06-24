@@ -341,6 +341,8 @@ function sendMidiMessage(ch, pitch, velocity, duration, index) {
     };
 
     setTimeout(noteOff, duration);
+  } else {
+    device.send(msgOff);
   }
 }
 

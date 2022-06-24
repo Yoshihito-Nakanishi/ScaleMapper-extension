@@ -159,6 +159,7 @@ function midiConnect() {
   }
 
   function sendMidiMessage(ch, pitch, velocity, duration, index) {
+
     const NOTE_ON = 0x90;
     const NOTE_OFF = 0x80;
     
@@ -176,6 +177,11 @@ function midiConnect() {
           };
 
           setTimeout(noteOff, duration);
+
+      } else {
+
+        device.send(msgOff);
+
       }
 
   }
