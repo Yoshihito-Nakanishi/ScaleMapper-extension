@@ -329,11 +329,18 @@ function sendMidiMessage(ch, pitch, velocity, duration, index) {
   var NOTE_OFF = 0x80;
   var device = midiOut[index];
   var msgOn = [NOTE_ON, pitch, velocity];
-  var msgOff = [NOTE_OFF, pitch, velocity]; // note on
+  var msgOff = [NOTE_OFF, pitch, velocity];
 
-  device.send(msgOn); // note off
+  if (pitch > 0) {
+    // note on
+    device.send(msgOn); // note off
 
-  device.send(msgOff, Date.now() + duration);
+    var noteOff = function noteOff() {
+      device.send(msgOff);
+    };
+
+    setTimeout(noteOff, duration);
+  }
 }
 
 function sendCCMessage(ch, value, index) {
@@ -341,7 +348,9 @@ function sendCCMessage(ch, value, index) {
   var device = midiOut[index];
   var msgCC = [CC, 0, value]; // First send the note on;
 
-  device.send(msgCC);
+  if (value > 0) {
+    device.send(msgCC);
+  }
 }
 /**
  * Scratch 3.0 blocks for example of Xcratch.

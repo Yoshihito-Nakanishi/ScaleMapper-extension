@@ -162,11 +162,18 @@ function midiConnect() {
     const msgOn = [NOTE_ON, pitch, velocity];
     const msgOff = [NOTE_OFF, pitch, velocity];
     
-    // note on
-    device.send(msgOn); 
-      
-    // note off
-    device.send(msgOff, Date.now() + duration); 
+      if (pitch > 0) {
+          // note on
+          device.send(msgOn);
+
+          // note off
+          const noteOff = function(){
+            device.send(msgOff);
+          };
+
+          setTimeout(noteOff, duration);
+      }
+
   }
 
   function sendCCMessage(ch, value, index) {
@@ -176,7 +183,10 @@ function midiConnect() {
     const msgCC = [CC, 0, value];
 
     // First send the note on;
-    device.send(msgCC); 
+      if (value > 0) {
+
+          device.send(msgCC);
+      }
   }
 
 /**
