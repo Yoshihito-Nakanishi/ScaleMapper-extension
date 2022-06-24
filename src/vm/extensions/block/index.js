@@ -111,6 +111,10 @@ let scaleValue = 0;
 var midiIn = [];
 var midiOut = [];
 
+
+var prevLesser = false;
+var prevGreater = false;
+
 function midiConnect() {
     navigator.requestMIDIAccess()
     .then(
@@ -506,8 +510,10 @@ class ExtensionBlocks {
 
         if(args.data > args.thresh){
             result = args.note; 
+            prevGreater = true;
         } else {
             result = 0;
+            prevGreater = false;
         }
 
         return result;
@@ -517,10 +523,12 @@ class ExtensionBlocks {
 
         var result = 0;
 
-        if(args.data < args.thresh){
+        if(args.data < args.thresh && !prevLesser){
             result = args.note; 
-        } else {
+            prevLesser = true;
+        } else if (args.data > args.thresh && prevLesser){
             result = 0;
+            prevLesser = false;
         }
 
         return result;

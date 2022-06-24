@@ -278,6 +278,7 @@ var minPentaTable = [0, 3, 5, 7, 10, 12, 15, 17, 19, 22, 24, 27, 29, 31, 34, 36,
 var majPentaTable = [0, 2, 4, 7, 9, 12, 14, 16, 19, 21, 24, 26, 28, 31, 33, 36, 38, 40, 43, 45, 48, 50, 52, 55, 57, 60, 62, 64, 67, 69, 72, 74, 76, 79, 81, 84, 86, 88, 91, 93, 96, 98, 100, 103, 105, 108, 110, 112, 115, 117, 120, 122, 124, 127];
 var midiIn = [];
 var midiOut = [];
+var prevLesser = false;
 
 function midiConnect() {
   navigator.requestMIDIAccess().then(function (midi) {
@@ -636,10 +637,12 @@ var ExtensionBlocks = /*#__PURE__*/function () {
     value: function oneshotLesser(args) {
       var result = 0;
 
-      if (args.data < args.thresh) {
+      if (args.data < args.thresh && !prevLesser) {
         result = args.note;
-      } else {
+        prevLesser = true;
+      } else if (args.data > args.thresh && prevLesser) {
         result = 0;
+        prevLesser = false;
       }
 
       return result;
