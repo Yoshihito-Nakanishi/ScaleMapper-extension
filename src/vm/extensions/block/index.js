@@ -272,10 +272,32 @@ class ExtensionBlocks {
                     }
                 },                
                 {
-                    opcode: 'oneshot',
+                    opcode: 'oneshotGreater',
                     text: formatMessage({
-                        id: 'scaleMapper.oneshot',
+                        id: 'scaleMapper.oneshotGreater',
                         default: 'the sensor value [data] is greater than [thresh] output [note]'
+                    }),
+                    blockType: BlockType.REPORTER,
+                    arguments: {
+                        data: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: "0",
+                        },
+                        thresh: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: "0",
+                        },
+                        note: {
+                            type: ArgumentType.NOTE,
+                            defaultValue: "60",
+                        }
+                    }
+                }, 
+                {
+                    opcode: 'oneshotLesser',
+                    text: formatMessage({
+                        id: 'scaleMapper.oneshotLesser',
+                        default: 'the sensor value [data] is lesser than [thresh] output [note]'
                     }),
                     blockType: BlockType.REPORTER,
                     arguments: {
@@ -468,11 +490,24 @@ class ExtensionBlocks {
         return result;
     };
 
-    oneshot(args){
+    oneshotGreater(args){
 
         var result = 0;
 
         if(args.data > args.thresh){
+            result = args.note; 
+        } else {
+            result = 0;
+        }
+
+        return result;
+    };
+
+    oneshotLesser(args){
+
+        var result = 0;
+
+        if(args.data < args.thresh){
             result = args.note; 
         } else {
             result = 0;

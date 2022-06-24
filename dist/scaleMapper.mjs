@@ -193,7 +193,8 @@ var en = {
 	"scaleMapper.name": "ScaleMapper",
 	"scaleMapper.doIt": "do it [SCRIPT]",
 	"scaleMapper.scaler": "Convert [data] values to [scale] scale",
-	"scaleMapper.oneshot": "when the value of [data] is greater than [thresh] output [note]",
+	"scaleMapper.oneshotGreater": "when the value of [data] is greater than [thresh] output [note]",
+	"scaleMapper.oneshotLesser": "when the value of [data] is lesser than [thresh] output [note]",
 	"scaleMapper.map": "Convert the range of values in [data] from min [in_min] max [in_max] to min [out_min] max [out_max]",
 	"scaleMapper.constrain": " Keep [data] values in the range [low] to [high]",
 	"scaleMapper.sendMIDI": " Send MIDI Message (channel [ch] pitch [pitch] velocity [velocity] duration [duration]) to device ID [outDevice]",
@@ -203,7 +204,8 @@ var ja = {
 	"scaleMapper.name": "ScaleMapper",
 	"scaleMapper.doIt": "[SCRIPT] を実行する",
 	"scaleMapper.scaler": " [data] の値を [scale] 音階に変換する",
-	"scaleMapper.oneshot": " [data] の値が [thresh] より大きくなったら [note] を出力する",
+	"scaleMapper.oneshotGreater": " [data] の値が [thresh] より大きくなったら [note] を出力する",
+	"scaleMapper.oneshotLesser": " [data] の値が [thresh] より小さくなったら [note] を出力する",
 	"scaleMapper.map": " [data] の値の範囲を 最小[in_min] 最大[in_max]から 最小[out_min] 最大[out_max] に変換する",
 	"scaleMapper.constrain": " [data] の値を [low] から [high] の範囲の中におさめる",
 	"scaleMapper.sendMIDI": " MIDIメッセージ （ チャンネル [ch] 高さ [pitch] 強さ [velocity] 時間 [duration] ）をデバイスID [outDevice] に送る",
@@ -216,7 +218,8 @@ var translations = {
 	"scaleMapper.name": "ScaleMapper",
 	"scaleMapper.doIt": "[SCRIPT] をじっこうする",
 	"scaleMapper.scaler": " [data] のあたいを [scale] おんかいにへんかんする",
-	"scaleMapper.oneshot": " [data] のあたいが [thresh] よりおおきくなったら [note] を出力する",
+	"scaleMapper.oneshotGreater": " [data] のあたいが [thresh] よりおおきくなったら [note] を出力する",
+	"scaleMapper.oneshotLesser": " [data] のあたいが [thresh] よりちいさくくなったら [note] を出力する",
 	"scaleMapper.map": " [data] のあたいのはんいをさいしょう[in_min]さいだい[in_max]からさいしょう[out_min]からさいだい[out_max]にへんかんする",
 	"scaleMapper.constrain": " [data] のあたいを [low] から [high] のはんいのなかにおさめる",
 	"scaleMapper.sendMIDI": " みでぃめっせーじ （ ちゃんねる [ch] たかさ [pitch] つよさ [velocity] じかん [duration] ）をでばいすばんごう [outDevice] におくる",
@@ -400,10 +403,31 @@ var ExtensionBlocks = /*#__PURE__*/function () {
             }
           }
         }, {
-          opcode: 'oneshot',
+          opcode: 'oneshotGreater',
           text: formatMessage({
-            id: 'scaleMapper.oneshot',
+            id: 'scaleMapper.oneshotGreater',
             default: 'the sensor value [data] is greater than [thresh] output [note]'
+          }),
+          blockType: blockType.REPORTER,
+          arguments: {
+            data: {
+              type: argumentType.NUMBER,
+              defaultValue: "0"
+            },
+            thresh: {
+              type: argumentType.NUMBER,
+              defaultValue: "0"
+            },
+            note: {
+              type: argumentType.NOTE,
+              defaultValue: "60"
+            }
+          }
+        }, {
+          opcode: 'oneshotLesser',
+          text: formatMessage({
+            id: 'scaleMapper.oneshotLesser',
+            default: 'the sensor value [data] is lesser than [thresh] output [note]'
           }),
           blockType: blockType.REPORTER,
           arguments: {
@@ -586,11 +610,24 @@ var ExtensionBlocks = /*#__PURE__*/function () {
       return result;
     }
   }, {
-    key: "oneshot",
-    value: function oneshot(args) {
+    key: "oneshotGreater",
+    value: function oneshotGreater(args) {
       var result = 0;
 
       if (args.data > args.thresh) {
+        result = args.note;
+      } else {
+        result = 0;
+      }
+
+      return result;
+    }
+  }, {
+    key: "oneshotLesser",
+    value: function oneshotLesser(args) {
+      var result = 0;
+
+      if (args.data < args.thresh) {
         result = args.note;
       } else {
         result = 0;
